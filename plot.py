@@ -12,7 +12,6 @@ import os
 def plot_signal(signal, sample_rate=44100, title="signal", color="b", xl="Time[s]", yl="Amplitude", png_save=False, npy_save=False):
     """
     Plots a signal and optionally saves it as a PNG or a NPY file.
-
     Args:
         signal (ndarray): 1D array of audio signal data.
         sample_rate (int): The sample rate of the audio signal. Default is 44100.
@@ -53,7 +52,6 @@ def plot_signal(signal, sample_rate=44100, title="signal", color="b", xl="Time[s
 def stem_signal(samples, signal, title="signal", color="b", xl="Samples", yl="Amplitude", png_save=False, npy_save=False):
     """
     Plot the discrete signal using a stem plot and save it as PNG and/or NPY file.
-
     Parameters
     ----------
     samples : numpy.ndarray
@@ -72,7 +70,6 @@ def stem_signal(samples, signal, title="signal", color="b", xl="Samples", yl="Am
         If True, save the plot as a PNG file in the "Graphics" folder (default is False).
     npy_save : bool, optional
         If True, save the signal as a NPY file in the "Arrays" folder (default is False).
-
     Returns
     -------
     None
@@ -80,7 +77,6 @@ def stem_signal(samples, signal, title="signal", color="b", xl="Samples", yl="Am
     Notes
     -------
     This function takes two arrays samples and signal, representing the time samples and the amplitude samples of a discrete signal, and plots it using a stem plot. The title, color, xl and yl parameters are used to customize the plot.
-
     The png_save and npy_save parameters, if set to True, will save the plot as a PNG file and the signal as a NPY file respectively. These files will be saved in the "Graphics" and "Arrays" folders (created if they don't exist) and will have the same name as the title parameter.    
     """
     plt.figure()
@@ -108,7 +104,6 @@ def stem_signal(samples, signal, title="signal", color="b", xl="Samples", yl="Am
 def load_plot(npy_file, sample_rate = 44100, title="signal", color="b", xl="Samples", yl="Amplitude", png_save=False):
     """
     Load a numpy array from an .npy file and plot the signal.
-
     Parameters
     ----------
     npy_file : str
@@ -125,13 +120,10 @@ def load_plot(npy_file, sample_rate = 44100, title="signal", color="b", xl="Samp
         Label for the y-axis (default is "Amplitude").
     png_save : bool, optional
         Whether to save the plot as a .png file (default is False).
-
     Notes
     -----
     The signal is assumed to be a mono audio signal, so the x-axis is labeled as "Time (s)" instead of "Samples".
-
     If `png_save` is True, the plot will be saved as a .png file in the "Graphics" directory with the title as the file name.
-
     Examples
     --------
     >>> load_plot("signal.npy", sample_rate=48000, title="My Signal", color="r", xl="Time (ms)", png_save=True)
@@ -156,7 +148,7 @@ def load_plot(npy_file, sample_rate = 44100, title="signal", color="b", xl="Samp
 def load_stem(npy_file,start=0, title="signal", color="b", xl="Samples", yl="Amplitude", png_save=False):
     """
     Load a signal from a NPY file and plot it as a stem plot.
-
+    
     Parameters:
     npy_file (str): path to the NPY file containing the signal.
     start (float, optional): starting point for the sample index. Defaults to 0.
@@ -165,7 +157,7 @@ def load_stem(npy_file,start=0, title="signal", color="b", xl="Samples", yl="Amp
     xl (str, optional): label for the x-axis. Defaults to "Samples".
     yl (str, optional): label for the y-axis. Defaults to "Amplitude".
     png_save (bool, optional): whether to save the plot as a PNG file or not. Defaults to False.
-
+    
     Returns:
     None
     
@@ -180,7 +172,7 @@ def load_stem(npy_file,start=0, title="signal", color="b", xl="Samples", yl="Amp
     The png_save parameter is an optional boolean indicating whether to save the plot as a PNG file or not. It defaults to False.
     """
     signal = np.load(f"{npy_file}")
-    samples = np.linspace(start, len(signal)+inicio, 1)
+    samples = np.arange(start, len(signal)+start, 1)
 
     plt.figure()
     plt.stem(samples, signal, f"{color}")
