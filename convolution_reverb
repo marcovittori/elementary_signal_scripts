@@ -1,0 +1,31 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Thu Apr 27 20:24:22 2023
+
+@author: luca
+"""
+import numpy as np
+import matplotlib.pyplot as plt
+
+def sintetic_impulse(fs=44100, t60=2, sigma=0):
+    
+    fs = 44100
+    t = np.linspace(0, 5, 5*fs)
+
+    #genero ruido
+    noise = np.random.normal(0,1,t.size)
+    noise_floor = sigma*np.random.normal(0,1,t.size)
+       
+    tau = t60/(np.log(1000)*5)
+
+    print(tau)
+    
+    envelope = np.exp(-t/tau)
+    
+    synth_impulse = envelope*noise + noise_floor
+    synth_impulse = synth_impulse/np.max(np.abs(synth_impulse))
+
+    return t, synth_impulse
+    
+t, synth_impulse = sintetic_impulse()
+plt.plot(t, synth_impulse)
