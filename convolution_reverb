@@ -1,24 +1,25 @@
-# -*- coding: utf-8 -*-
+# -- coding: utf-8 --
 """
 Created on Thu Apr 27 20:24:22 2023
 
 @author: luca
 """
+
 import numpy as np
 import matplotlib.pyplot as plt
+from scipy.signal import fftconvolve
 
 def sintetic_impulse(fs=44100, t60=2, sigma=0):
     
-    fs = 44100
     t = np.linspace(0, 5, 5*fs)
 
     #genero ruido
     noise = np.random.normal(0,1,t.size)
     noise_floor = sigma*np.random.normal(0,1,t.size)
        
-    tau = t60/(np.log(1000)*5)
+    tau = 0.666
 
-    print(tau)
+    # print(tau)
     
     envelope = np.exp(-t/tau)
     
@@ -27,5 +28,19 @@ def sintetic_impulse(fs=44100, t60=2, sigma=0):
 
     return t, synth_impulse
     
-t, synth_impulse = sintetic_impulse()
-plt.plot(t, synth_impulse)
+
+def reverb(signal, fs=44100, t60=2, sigma=0):
+    
+
+    t, synth_impulse = sintetic_impulse(fs,t60,sigma)
+    rev_signal = fftconvolve(signal, synth_impulse)
+
+    t = np.linspace(0, len(rev_signal)//fs, rev_signal.size)
+
+    return t, rev_signal
+
+
+if __name__ =="__main__":
+    t, synth_impulse = sintetic_impulse()
+    plt.plot(t, synth_impulse)
+    plt.show()
