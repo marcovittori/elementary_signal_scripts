@@ -1,78 +1,54 @@
 # -*- coding: utf-8 -*-
 """
-Created on Wed Apr 26 11:49:09 2023
+Created on Thu Apr 27 15:42:50 2023
 
 @author: luca
 """
+
 import numpy as np
 
-def invert_signal(signal, invert_time=False, invert_amp=False):
-    """Applies time and/or amplitude inversion to a discrete-time signal.
-    
-    Args:
-    signal (np.array): Discrete-time signal.
-    invert_time (bool, optional): If True, the signal is inverted in time. Default is False.
-    invert_amp (bool, optional): If True, the signal is inverted in amplitude. Default is False.
-    
-    Returns:
-    np.array: The inverted signal.
-    """
-    # Invert signal in time if specified
-    if invert_time == True:
-        signal = np.flip(signal)
-    
-    # Invert signal in amplitude if specified
-    if invert_amp == True:
-        signal = -1 * signal
-        
+def invert_time(signal):
+    return np.flip(signal)
+
+def invert_amplitude(signal):
+    return -1*signal
+
+def shift_time(samples, shift):
+    for i in samples:
+        samples[i]=samples[i]+shift
+    return samples
+
+def shift_amplitude(signal, shift):
+    signal += shift
     return signal
 
-def shift_signal(signal, sample_shift, amp_shift, shift_sample = False, shift_amp = False):
-    """
-    Shifts a discrete-time signal in samples and/or amplitude.
+def match_dimentions(samples_1, signal_1, samples_2, signal_2):
+    
+    # Check for the min and max values for both sample arrays
+    min_val = min(min(samples_1), min(samples_2))
+    max_val = max(max(samples_1), max(samples_2))
+    samples = np.arange(min_val, max_val, 1)
+    
+    # create arrays with zeros to be concatenated
+    zeros_before_1 = np.zeros(abs(min_val) - abs(min(samples_1)))
+    zeros_after_1 = np.zeros(abs(max_val) - abs(max(samples_1)))
+    zeros_before_2 = np.zeros(abs(min_val) - abs(min(samples_2)))
+    zeros_after_2 = np.zeros(abs(max_val) - abs(max(samples_2)))
+    
+    # Concatenate zeros for the new samples
+    signal_1 = np.concatenate(zeros_before_1, signal_1, zeros_after_1)
+    signal_2 = np.concatenate(zeros_before_2, signal_2, zeros_after_2)
+    
+    return samples, signal_1, signal_2
 
-    Args:
-        signal (numpy.ndarray): The input signal to shift.
-        sample_shift (int): The number of samples to shift the signal in time.
-        amp_shift (float): The amplitude value to shift the signal.
-        shift_sample (bool, optional): If True, shift the signal in time. Default is False.
-        shift_amp (bool, optional): If True, shift the signal in amplitude. Default is False.
+def addition(samples_1, signal_1, samples_2, signal_2):
+    
+    y, x1, x2 = match_dimentions(samples_1, signal_1, samples_2, signal_2)
+    out = x1 + x2
+    return y, out
 
-    Returns:
-        numpy.ndarray: The shifted signal.
-    """
-    # Shift sample
-    if shift_sample == True:
-        signal = np.roll(signal, sample_shift)
+def multiplication(samples_1, signal_1, samples_2, signal_2):
     
-    # Shift amplitude
-    if shift_amp == True:
-        signal = -1*signal
-    
-    return signal
-
-def operate_signal(signal_1, signal_2, operator):
-    """
-    Apply the selected mathematical operation between two signals of equal length.
-    
-    Args:
-    signal_1 (np.array): First signal.
-    signal_2 (np.array): Second signal.
-    operator (str): Mathematical operator. Options are "add" for addition, "mult" for multiplication, and "convo" for convolution.
-    
-    Returns:
-    np.array: The result of applying the selected operator to the input signals.
-    """
-    # Add
-    if operator == "add":
-        output = signal_1+signal_2
-    
-    # Multiply
-    if operator == "mult":
-        output = signal_1*signal_2
-        
-    # Convolution
-    if operator == "convo":
-        output = np.convolve(signal_1, signal_2)
-    
-    return output
+    y, x1, x2 = match_dimentions(samples_1, signal_1, samples_2, signal_2)
+    out = x1 * x2
+    return y, out
