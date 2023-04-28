@@ -1,11 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Tue Apr 25 23:52:16 2023
-
-@author: luca
-"""
-import numpy as np
-
 import numpy as np
 
 def unit_impulse(start=-10, end=10, amplitude=1):
@@ -50,7 +42,7 @@ def heavy_side(start=-10, end=10, amplitude=1):
     # Create the signal with zeros
     signal = np.zeros(len(samples))
     # Change the amplitude to generate the given signal
-    mask = samples > 0
+    mask = samples >= 0
     signal[mask] = amplitude
     
     return samples, signal
@@ -75,12 +67,12 @@ def rectangular_pulse(width, start=-5, end=5, amplitude=1):
     # Create the signal
     signal = np.zeros(len(samples))
     # Change the amplitude following the parameters
-    mask = (samples > 0-width-1) & (samples < width+1)
+    mask = (samples > -(width/2)-1) & (samples < (width/2)+1)
     signal[mask] = amplitude
     
     return samples, signal
 
-def triangular_pulse(start, end, amplitude=1, width=1):
+def triangular_pulse(start=-10, end=10, amplitude=1, width=1):
     """
     Creates a triangular pulse signal.
 
@@ -103,7 +95,7 @@ def triangular_pulse(start, end, amplitude=1, width=1):
     
     return samples, amplitude * signal 
 
-def exponential_signal(start, end, amplitude = 1, rate = 1):
+def exponential_signal(start=0, end=10, amplitude = 1, rate = 1):
     """
     Creates an exponential signal.
 
@@ -124,7 +116,7 @@ def exponential_signal(start, end, amplitude = 1, rate = 1):
 
     return samples, signal
 
-def normal_signal(start, end, mean, std_dev):
+def normal_signal(start=0, end=10, mean=0, std_dev=1):
     """
     Creates a signal with values sampled from a normal distribution.
 
