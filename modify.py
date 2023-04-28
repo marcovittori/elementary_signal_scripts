@@ -52,3 +52,6 @@ def multiplication(samples_1, signal_1, samples_2, signal_2):
     y, x1, x2 = match_dimentions(samples_1, signal_1, samples_2, signal_2)
     out = x1 * x2
     return y, out
+
+def convolution(signal_1, signal_2):
+    return fftconvolve(signal_1, signal_2)
