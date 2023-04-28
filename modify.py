@@ -6,6 +6,7 @@ Created on Thu Apr 27 15:42:50 2023
 """
 
 import numpy as np
+from scipy.signal import fftconvolve
 
 def invert_time(signal):
     return np.flip(signal)
