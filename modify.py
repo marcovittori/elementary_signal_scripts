@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 Created on Thu Apr 27 15:42:50 2023
+
 @author: luca
 """
 
@@ -14,12 +15,9 @@ def invert_amplitude(signal):
     return -1*signal
 
 def shift_time(samples, shift):
-    new_samples = np.zeros(len(samples), dtype= np.int16)
-
     for i in range(len(samples)):
-        new_samples[i] = int(samples[i]+shift)
-
-    return new_samples
+        samples[i]=samples[i]+shift
+    return samples
 
 def shift_amplitude(signal, shift):
     signal += shift
@@ -30,19 +28,23 @@ def match_dimentions(samples_1, signal_1, samples_2, signal_2):
     # Check for the min and max values for both sample arrays
     min_val = min(min(samples_1), min(samples_2))
     max_val = max(max(samples_1), max(samples_2))
-    samples = np.arange(min_val, max_val+1, 1)
+    samples = np.arange(min_val, max_val+1)
     
-    # create arrays with zeros to be concatenated
-    zeros_before_1 = np.zeros(abs(min_val) - abs(min(samples_1)))
-    zeros_after_1 = np.zeros(abs(max_val) - abs(max(samples_1)))
-    zeros_before_2 = np.zeros(abs(min_val) - abs(min(samples_2)))
-    zeros_after_2 = np.zeros(abs(max_val) - abs(max(samples_2)))
+    # Define two new signals to be an array of zeros
+    signal_1_new = np.zeros(len(samples))
+    signal_2_new = np.zeros(len(samples))
     
-    # Concatenate zeros for the new samples
-    signal_1 = np.concatenate((zeros_before_1, signal_1, zeros_after_1))
-    signal_2 = np.concatenate((zeros_before_2, signal_2, zeros_after_2))
+    for i in range(len(samples)):
+        if samples[i] == min(samples_1):
+            for j in range(len(signal_1)):
+                signal_1_new[j+i] = signal_1[j]
     
-    return samples, signal_1, signal_2
+    for i in range(len(samples)):
+        if samples[i] == min(samples_2):
+            for j in range(len(signal_2)):
+                signal_2_new[j+i] = signal_2[j]
+                
+    return samples, signal_1_new, signal_2_new
 
 def addition(samples_1, signal_1, samples_2, signal_2):
     
