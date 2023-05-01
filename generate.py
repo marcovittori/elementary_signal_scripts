@@ -1,6 +1,6 @@
 import numpy as np
 
-def unit_impulse(start=-10, end=10, amplitude=1):
+def unit_impulse(start=-10, end=10, amplitude=1, shift=0):
     """
     Creates a unit impulse signal.
 
@@ -18,13 +18,13 @@ def unit_impulse(start=-10, end=10, amplitude=1):
     # Creates the signal with zeros
     signal = np.zeros(len(samples))
     # Makes the amplitude 1 on the origin to make the signal
-    mask = samples == 0
+    mask = samples == shift
     signal[mask] = amplitude
     
     return samples, signal
 
 
-def heavy_side(start=-10, end=10, amplitude=1):
+def heavy_side(start=-10, end=10, amplitude=1, shift=0):
     """
     Creates a Heaviside step function.
 
@@ -42,13 +42,13 @@ def heavy_side(start=-10, end=10, amplitude=1):
     # Create the signal with zeros
     signal = np.zeros(len(samples))
     # Change the amplitude to generate the given signal
-    mask = samples >= 0
+    mask = samples >= shift
     signal[mask] = amplitude
     
     return samples, signal
 
 
-def rectangular_pulse(width, start=-5, end=5, amplitude=1):
+def rectangular_pulse(width, start=-5, end=5, amplitude=1, shift=0):
     """
     Creates a rectangular pulse signal.
 
@@ -67,12 +67,12 @@ def rectangular_pulse(width, start=-5, end=5, amplitude=1):
     # Create the signal
     signal = np.zeros(len(samples))
     # Change the amplitude following the parameters
-    mask = (samples > -(width/2)-1) & (samples < (width/2)+1)
+    mask = (samples > shift-(width/2)-1) & (samples < shift+(width/2)+1)
     signal[mask] = amplitude
     
     return samples, signal
 
-def triangular_pulse(start=-10, end=10, amplitude=1, width=1):
+def triangular_pulse(start=-10, end=10, amplitude=1, width=1, shift=0):
     """
     Creates a triangular pulse signal.
 
@@ -91,7 +91,7 @@ def triangular_pulse(start=-10, end=10, amplitude=1, width=1):
     # Concatenate two lines to make the triangle
     n1 = np.linspace(0, 1, num=width//2, endpoint=False)
     n2 = np.linspace(1, 0, num=width//2+1)
-    signal = np.concatenate((np.zeros(-start-width//2), n1, n2, np.zeros(end-width//2)))
+    signal = np.concatenate((np.zeros(shift-start-width//2), n1, n2, np.zeros(shift+end-width//2)))
     
     return samples, amplitude * signal 
 
