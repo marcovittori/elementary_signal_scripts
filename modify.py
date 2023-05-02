@@ -71,6 +71,7 @@ def match_dimentions(samples_1, signal_1, samples_2, signal_2):
     signal_1_new = np.zeros(len(samples))
     signal_2_new = np.zeros(len(samples))
     
+    # Assign the original amplitudes on the respective places
     for i in range(len(samples)):
         if samples[i] == min(samples_1):
             for j in range(len(signal_1)):
@@ -97,7 +98,7 @@ def addition(samples_1, signal_1, samples_2, signal_2):
     """
     y, x1, x2 = match_dimentions(samples_1, signal_1, samples_2, signal_2)
     out = x1 + x2
-    return y
+    return y, out
 
 def multiplication(samples_1, signal_1, samples_2, signal_2):
     """Multiplies two signals together using element-wise multiplication.
