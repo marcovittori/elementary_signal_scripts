@@ -33,8 +33,7 @@ def shift_time(samples, shift):
     Returns:
         array: The shifted samples.
     """
-    for i in range(len(samples)):
-        samples[i]=samples[i]+shift
+    samples += shift
     return samples
 
 def shift_amplitude(signal, shift):
