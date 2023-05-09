@@ -117,7 +117,7 @@ def exponential_signal(start=0, end=10, amplitude=1, base=2, rate=-1):
     # Create a sample array
     samples = np.arange(start, end+1, 1)
     # Create the signal
-    signal = amplitude * np.power(base, -samples*rate)
+    signal = amplitude * np.power(base, samples*rate)
 
     return samples, signal
 
