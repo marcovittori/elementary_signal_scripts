@@ -70,7 +70,7 @@ def rectangular_pulse(start=-5, end=5, width=4, amplitude=1, shift=0):
     # Create the signal
     signal = np.zeros(len(samples))
     # Change the amplitude following the parameters
-    mask = (samples > shift-(width/2)-1) & (samples < shift+(width/2)+1)
+    mask = (samples > shift-(width/2)) & (samples < shift+(width/2))
     signal[mask] = amplitude
     
     return samples, signal
