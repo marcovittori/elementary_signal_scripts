@@ -64,7 +64,7 @@ def reverb(signal, fs=44100, t60=2, sigma=0):
 
     # Normalize the reverberant signal
     rev_signal = rev_signal/np.max(np.abs(rev_signal)) 
-    t_rev = np.linspace(0, len(rev_signal)//fs, rev_signal.size)  # create a time array for the reverberant signal
+    t_rev = np.linspace(0, len(rev_signal)/fs, rev_signal.size)  # create a time array for the reverberant signal
 
     return t_rev, rev_signal, t_imp, synth_impulse
 
