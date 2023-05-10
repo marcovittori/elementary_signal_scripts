@@ -4,28 +4,36 @@ import os
 
 def npy_load(name):
     """
-    Load a .npy file from the 'Arrays' folder and returns its content as a numpy array.
+    Load two .npy file from the 'Arrays' folder and returns its content as two numpy array.
 
     Parameters:
         name (str): Name of the file to be loaded (without the .npy extension).
 
     Returns:
-        array: Array of the loaded data.
+        Tuple: Array of samples loaded and an array of the loaded data.
+
+    Notes:
+        The array with the name.npy have to exist. If you want to load your own signal
+        you must create a samples array named name_samples.npy
     """
     # Create directory if it doesn't exist
     os.makedirs("Arrays", exist_ok=True)
 
     # Join the directory and file name using os.path.join()
+    file_path_samples =os.path.join("Arrays", f"{name}_samples.npy")
     file_path = os.path.join("Arrays", f"{name}.npy")
+
     signal = np.load(file_path)
+    samples = np.load(file_path_samples)
 
-    return signal 
+    return samples, signal 
 
-def npy_save(signal, name ="Signal"):
+def npy_save(samples, signal, name ="Signal"):
     """
-    Save a numpy array as a .npy file in the 'Arrays' folder.
+    Save a numpy signal array with its samples array as a .npy file in the 'Arrays' folder.
 
     Parameters:
+        samples(ndarray): Array of samples to be saved
         signal (ndarray): Array to be saved.
         name (str, optional): Name of the file to be saved (without the .npy extension). Default is 'Signal'.
 
@@ -37,9 +45,11 @@ def npy_save(signal, name ="Signal"):
 
     # Join the directory and file name using os.path.join()
     file_path = os.path.join("Arrays", f"{name}.npy")
+    file_path_samples =os.path.join("Arrays", f"{name}_samples.npy")
     np.save(file_path, signal)
+    np.save(file_path_samples, samples)
 
-def plot_signal(signal, sample_rate=44100, title="Signal", color="b", xl="Time[s]", yl="Amplitude", log_scale=False, png_save=False, npy_saves=False):
+def plot_signal(signal, sample_rate=44100, title="Signal", color="b", xl="Time[s]", yl="Amplitude", log_scale_y=False, log_scale_x=False, png_save=False, npy_saves=False):
     """
     Plots a signal and optionally saves it as a PNG or a NPY file.
 
@@ -67,7 +77,10 @@ def plot_signal(signal, sample_rate=44100, title="Signal", color="b", xl="Time[s
     plt.ylabel(yl)
     plt.grid()
 
-    if log_scale == True:
+    if log_scale_x == True:
+        plt.xscale("symlog")
+
+    if log_scale_y == True:
         plt.yscale("symlog")
 
     # Save as PNG
@@ -80,10 +93,10 @@ def plot_signal(signal, sample_rate=44100, title="Signal", color="b", xl="Time[s
 
     # Save as NPY
     if npy_saves:
-        npy_save(signal,title)
+        npy_save(time_array, signal, title)
 
 
-def stem_signal(samples, signal, title="Signal", color="b", xl="Samples", yl="Amplitude", log_scale=False, png_save=False, npy_saves=False):
+def stem_signal(samples, signal, title="Signal", color="b", xl="Samples", yl="Amplitude", log_scale_y=False, log_scale_x=False, png_save=False, npy_saves=False):
     """
     Plots a signal and optionally saves it as a PNG or a NPY file.
 
@@ -108,7 +121,10 @@ def stem_signal(samples, signal, title="Signal", color="b", xl="Samples", yl="Am
     plt.ylabel(yl)
     plt.grid()
    
-    if log_scale == True:
+    if log_scale_x == True:
+        plt.xscale("symlog")
+
+    if log_scale_y == True:
         plt.yscale("symlog")
 
     # Save as PNG
@@ -121,5 +137,5 @@ def stem_signal(samples, signal, title="Signal", color="b", xl="Samples", yl="Am
 
     # Save as NPY
     if npy_saves:
-        npy_save(signal,title)
+        npy_save(samples, signal, title)
 
