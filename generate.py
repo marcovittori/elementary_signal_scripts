@@ -98,16 +98,18 @@ def triangular_pulse(start=-10, end=10, amplitude=1, width=1, shift=0):
     Returns:
         tuple: A tuple containing two numpy arrays. The first array contains the
         sample values and the second array contains the signal values.
+    Notes:
+        The function only works when the triangle is within the range of samples
     """
     # Raise ValueError
     if start > end:
         raise ValueError("End value must be greater than to start value.")
     # Create a sample array
-    samples = np.arange(start, end+1, 1) 
+    samples = np.arange(start, end+1, 1)
     # Concatenate two lines to make the triangle
     n1 = np.linspace(0, 1, num=width//2, endpoint=False)
     n2 = np.linspace(1, 0, num=width//2+1)
-    signal = np.concatenate((np.zeros(shift-start-width//2), n1, n2, np.zeros(shift+end-width//2)))
+    signal = np.concatenate((np.zeros(-start-width//2+shift), n1, n2, np.zeros(end-width//2-shift)))
     
     return samples, amplitude * signal 
 
