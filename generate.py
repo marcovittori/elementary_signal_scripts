@@ -14,6 +14,9 @@ def unit_impulse(start=-10, end=10, amplitude=1, shift=0):
         tuple: A tuple containing two numpy arrays. The first array contains the
         sample values and the second array contains the signal values.
     """
+    # Raise ValueError
+    if start > end:
+        raise ValueError("End value must be greater than to start value.")
     # Creates a sample array
     samples = np.arange(start, end+1, 1)
     # Creates the signal with zeros
@@ -39,6 +42,9 @@ def heavy_side(start=-10, end=10, amplitude=1, shift=0):
         tuple: A tuple containing two numpy arrays. The first array contains the
         sample values and the second array contains the signal values.
     """
+    # Raise ValueError
+    if start > end:
+        raise ValueError("End value must be greater than to start value.")
     # Create a sample array
     samples = np.arange(start, end+1, 1)
     # Create the signal with zeros
@@ -65,6 +71,9 @@ def rectangular_pulse(start=-5, end=5, width=4, amplitude=1, shift=0):
         tuple: A tuple containing two numpy arrays. The first array contains the
         sample values and the second array contains the signal values.
     """
+    # Raise ValueError
+    if start > end:
+        raise ValueError("End value must be greater than to start value.")
     # Create a sample array
     samples = np.arange(start, end+1, 1)
     # Create the signal
@@ -90,6 +99,9 @@ def triangular_pulse(start=-10, end=10, amplitude=1, width=1, shift=0):
         tuple: A tuple containing two numpy arrays. The first array contains the
         sample values and the second array contains the signal values.
     """
+    # Raise ValueError
+    if start > end:
+        raise ValueError("End value must be greater than to start value.")
     # Create a sample array
     samples = np.arange(start, end+1, 1) 
     # Concatenate two lines to make the triangle
@@ -114,6 +126,9 @@ def exponential_signal(start=0, end=10, amplitude=1, base=2, rate=-1):
         tuple: A tuple containing two numpy arrays. The first array contains the
         sample values and the second array contains the signal values.
     """
+    # Raise ValueError
+    if start > end:
+        raise ValueError("End value must be greater than to start value.")
     # Create a sample array
     samples = np.arange(start, end+1, 1)
     # Create the signal
@@ -135,6 +150,9 @@ def normal_signal(start=0, end=10, mean=0, std_dev=1):
         tuple: A tuple containing two numpy arrays. The first array contains the
         sample values and the second array contains the signal values.
     """
+    # Raise ValueError
+    if start > end:
+        raise ValueError("End value must be greater than to start value.")
     # Create a sample array
     samples = np.arange(start,end+1,1)
     # Create the signal
