@@ -1,5 +1,4 @@
 import numpy as np
-import matplotlib.pyplot as plt
 from scipy.signal import fftconvolve
 
 def sintetic_impulse(fs=44100, t60=1, sigma=0.1):
@@ -67,10 +66,3 @@ def reverb(signal, fs=44100, t60=2, sigma=0):
     t_rev = np.linspace(0, len(rev_signal)/fs, rev_signal.size)  # create a time array for the reverberant signal
 
     return t_rev, rev_signal, t_imp, synth_impulse
-
-
-if __name__ =="__main__":
-    # Generate and plot a synthetic impulse response
-    t, synth_impulse = sintetic_impulse()
-    plt.plot(synth_impulse)
-    plt.show()
